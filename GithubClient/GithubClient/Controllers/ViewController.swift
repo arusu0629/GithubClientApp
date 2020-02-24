@@ -47,25 +47,36 @@ extension ViewController: UITextFieldDelegate {
 }
 
 extension ViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row >= users.count {
+            return
+        }
+        guard let webVC = storyboard?.instantiateViewController(withIdentifier: "WebVC") as? WebViewController else {
+            return
+        }
+        let user = users[indexPath.row]
+        webVC.requestUrl = user.htmlUrl
+        self.navigationController?.pushViewController(webVC, animated: true)
+    }
 }
 
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return users.count
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return users.count
+        return 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "UserCell", for: indexPath)
 
-        if indexPath.section >= users.count {
+        if indexPath.row >= users.count {
             return cell
         }
 
-        let user = users[indexPath.section]
+        let user = users[indexPath.row]
         cell.textLabel!.text = user.name
         let imageUrl = URL(string: user.avatarUrl)!
         let imageData = try? Data(contentsOf: imageUrl)
