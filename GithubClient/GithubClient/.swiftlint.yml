@@ -1,0 +1,5 @@
+excluded:
+- Pods
+- Generated
+- SceneDelegate.swift
+- AppDelegate.swift
