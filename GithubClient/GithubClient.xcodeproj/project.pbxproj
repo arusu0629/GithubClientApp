@@ -14,6 +14,8 @@
 		2E00B672240389DF00C96F31 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E00B671240389DF00C96F31 /* Assets.xcassets */; };
 		2E00B675240389DF00C96F31 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E00B673240389DF00C96F31 /* LaunchScreen.storyboard */; };
 		2E00B67E240390B600C96F31 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 2E00B67D240390B600C96F31 /* .swiftlint.yml */; };
+		2E41922A24039AA500575D55 /* Agent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E41922924039AA500575D55 /* Agent.swift */; };
+		2E41922D2403A14200575D55 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E41922C2403A14200575D55 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		2E00B674240389DF00C96F31 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2E00B676240389DF00C96F31 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E00B67D240390B600C96F31 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		2E41922924039AA500575D55 /* Agent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Agent.swift; sourceTree = "<group>"; };
+		2E41922C2403A14200575D55 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +62,7 @@
 		2E00B667240389DD00C96F31 /* GithubClient */ = {
 			isa = PBXGroup;
 			children = (
+				2E41922B2403A13300575D55 /* Entity */,
 				2E00B668240389DD00C96F31 /* AppDelegate.swift */,
 				2E00B66A240389DD00C96F31 /* SceneDelegate.swift */,
 				2E00B66C240389DD00C96F31 /* ViewController.swift */,
@@ -66,8 +71,17 @@
 				2E00B673240389DF00C96F31 /* LaunchScreen.storyboard */,
 				2E00B676240389DF00C96F31 /* Info.plist */,
 				2E00B67D240390B600C96F31 /* .swiftlint.yml */,
+				2E41922924039AA500575D55 /* Agent.swift */,
 			);
 			path = GithubClient;
+			sourceTree = "<group>";
+		};
+		2E41922B2403A13300575D55 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				2E41922C2403A14200575D55 /* User.swift */,
+			);
+			path = Entity;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -164,7 +178,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E00B66D240389DD00C96F31 /* ViewController.swift in Sources */,
+				2E41922A24039AA500575D55 /* Agent.swift in Sources */,
 				2E00B669240389DD00C96F31 /* AppDelegate.swift in Sources */,
+				2E41922D2403A14200575D55 /* User.swift in Sources */,
 				2E00B66B240389DD00C96F31 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
