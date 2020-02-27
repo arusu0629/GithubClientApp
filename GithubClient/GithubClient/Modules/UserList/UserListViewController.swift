@@ -18,6 +18,7 @@ class UserListViewController: UIViewController {
 
     @IBOutlet weak var userNameTextField: UITextField!
     @IBOutlet weak var userListTableView: UITableView!
+    @IBOutlet weak var fetchActivityIndicatorView: UIActivityIndicatorView!
 
     var presenter: UserListPresenter?
 
@@ -28,6 +29,10 @@ class UserListViewController: UIViewController {
         userNameTextField.delegate = self
         userListTableView.delegate = self
         userListTableView.dataSource = self
+
+        fetchActivityIndicatorView.hidesWhenStopped = true
+        fetchActivityIndicatorView.style = .gray
+        fetchActivityIndicatorView.center = self.view.center
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -39,11 +44,11 @@ class UserListViewController: UIViewController {
 extension UserListViewController: UserListViewInterface {
 
     func showLoading() {
-
+        fetchActivityIndicatorView.startAnimating()
     }
 
     func hideLoading() {
-
+        fetchActivityIndicatorView.stopAnimating()
     }
 
     func reloadData() {

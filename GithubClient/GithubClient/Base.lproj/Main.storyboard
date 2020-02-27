@@ -51,6 +51,10 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" id="HZV-xx-IhY">
+                                <rect key="frame" x="0.0" y="426" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -68,6 +72,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="BAM-05-Fwq"/>
                     <connections>
+                        <outlet property="fetchActivityIndicatorView" destination="HZV-xx-IhY" id="xzJ-AW-Nkk"/>
                         <outlet property="userListTableView" destination="pkv-5W-4w2" id="NBW-We-Ia6"/>
                         <outlet property="userNameTextField" destination="qws-Ae-szg" id="2UV-Gj-fEo"/>
                     </connections>
