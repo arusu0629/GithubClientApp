@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 protocol UserListViewInterface {
     func showLoading()
@@ -105,8 +106,10 @@ extension UserListViewController: UITableViewDataSource {
         let user = users[indexPath.row]
         cell.textLabel!.text = user.name
         let imageUrl = URL(string: user.avatarUrl)!
-        let imageData = try? Data(contentsOf: imageUrl)
-        cell.imageView?.image = UIImage(data: imageData ?? Data())
+        cell.imageView?.kf.setImage(with: imageUrl, placeholder: UIImage(named: "downloadingImage"), options: [
+            .scaleFactor(UIScreen.main.scale),
+            .transition(.fade(1))
+        ])
         cell.detailTextLabel?.text = user.type
         return cell
     }
