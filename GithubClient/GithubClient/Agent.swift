@@ -15,23 +15,29 @@ struct Agent {
         let response: URLResponse
     }
 
-    func run<T: Decodable>(_ request: URLRequest, onDecode: @escaping (Result<Response<T>, Error>) -> Void) {
+    enum GithubApiError: Error {
+        case network
+        case cannotCastHttpResponse
+        case cannotDecode
+        case unknown
+    }
+
+    func run<T: Decodable>(_ request: URLRequest, onDecode: @escaping (Result<Response<T>, GithubApiError>) -> Void) {
         let task = URLSession.shared.dataTask(with: request) { (data, urlResponse, error) in
 
-            func execCompletionOnMainThread(_ result: Result<Response<T>, Error>) {
+            func execCompletionOnMainThread(_ result: Result<Response<T>, GithubApiError>) {
                 DispatchQueue.main.async {
                     onDecode(result)
                 }
             }
 
-            if let error = error {
-                execCompletionOnMainThread(.failure(error))
+            if error != nil {
+                execCompletionOnMainThread(.failure(.network))
                 return
             }
 
             guard let httpResponse = urlResponse as? HTTPURLResponse else {
-                // TODO: Error処理
-                execCompletionOnMainThread(.failure(error!))
+                execCompletionOnMainThread(.failure(.cannotCastHttpResponse))
                 return
             }
 
@@ -41,14 +47,12 @@ struct Agent {
                     let jsonDecoder = JSONDecoder()
                     let value = try jsonDecoder.decode(T.self, from: data ?? Data())
                     let response = Response(value: value, response: httpResponse)
-                    print("success response value = \(response.value)")
                     execCompletionOnMainThread(.success(response))
-                } catch let decodeError {
-                    execCompletionOnMainThread(.failure(decodeError))
+                } catch {
+                    execCompletionOnMainThread(.failure(.cannotDecode))
                 }
             default:
-                // TODO: Error処理
-                execCompletionOnMainThread(.failure(error!))
+                execCompletionOnMainThread(.failure(.unknown))
             }
         }
 
@@ -62,7 +66,7 @@ enum GithubApi {
 }
 
 extension GithubApi {
-    static func searchUser(name: String, completion: @escaping((Result<Agent.Response<SearchUsersResponse>, Error>) -> Void)) {
+    static func searchUser(name: String, completion: @escaping((Result<Agent.Response<SearchUsersResponse>, Agent.GithubApiError>) -> Void)) {
         let path = "search/users"
         let url = base.appendingPathComponent(path)
         var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true)!

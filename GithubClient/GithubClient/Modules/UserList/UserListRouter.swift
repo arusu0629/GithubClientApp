@@ -51,6 +51,8 @@ extension UserListRouter: UserListRouterInterface {
     }
 
     func performPopup(with errorMessage: String) {
-
+        let alert = UIAlertController(title: "Alert", message: "データの取得に失敗しました", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        navigationController?.present(alert, animated: true, completion: nil)
     }
 }

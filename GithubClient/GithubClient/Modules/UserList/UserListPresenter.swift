@@ -54,5 +54,6 @@ extension UserListPresenter: UserListPresenterInterface {
 
     func userListFetchFailed(with errorMessage: String) {
         router?.performPopup(with: errorMessage)
+        view?.hideLoading()
     }
 }
