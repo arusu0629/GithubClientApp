@@ -1,53 +1,69 @@
 //
-//  ViewController.swift
+//  UserListViewController.swift
 //  GithubClient
 //
-//  Created by Toru Nakandakari on 2020/02/24.
+//  Created by Toru Nakandakari on 2020/02/26.
 //  Copyright © 2020 仲村渠亨. All rights reserved.
 //
 
 import UIKit
 
-class ViewController: UIViewController {
+protocol UserListViewInterface {
+    func showLoading()
+    func hideLoading()
+    func reloadData()
+}
+
+class UserListViewController: UIViewController {
 
     @IBOutlet weak var userNameTextField: UITextField!
-    @IBOutlet var userTableView: UITableView!
+    @IBOutlet weak var userListTableView: UITableView!
 
-    var users: [User] = []
+    var presenter: UserListPresenter?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        presenter?.notifyViewLoaded()
+
         userNameTextField.delegate = self
-        userTableView.delegate = self
-        userTableView.dataSource = self
+        userListTableView.delegate = self
+        userListTableView.dataSource = self
     }
 
-    private func findUser(name: String) {
-        self.users.removeAll()
-        GithubApi.searchUser(name: name) { (result) in
-            switch result {
-            case .success(let response):
-                self.users.append(contentsOf: response.value.items)
-                self.userTableView.reloadData()
-            case .failure(let error):
-                print("find user error = \(error)")
-                self.userTableView.reloadData()
-            }
-        }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        presenter?.notifyViewWillAppear()
     }
-
 }
 
-extension ViewController: UITextFieldDelegate {
+extension UserListViewController: UserListViewInterface {
+
+    func showLoading() {
+
+    }
+
+    func hideLoading() {
+
+    }
+
+    func reloadData() {
+        userListTableView.reloadData()
+    }
+}
+
+extension UserListViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        findUser(name: userNameTextField.text ?? "")
+        presenter?.textFieldShouldReturn(with: textField.text)
         userNameTextField.resignFirstResponder()
         return true
     }
 }
 
-extension ViewController: UITableViewDelegate {
+extension UserListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let users = presenter?.getUserList() else {
+            return
+        }
         if indexPath.row >= users.count {
             return
         }
@@ -60,17 +76,22 @@ extension ViewController: UITableViewDelegate {
     }
 }
 
-extension ViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return users.count
-    }
+extension UserListViewController: UITableViewDataSource {
 
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let userList = presenter?.getUserList() else {
+            return 0
+        }
+        return userList.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
         let cell = tableView.dequeueReusableCell(withIdentifier: "UserCell", for: indexPath)
+
+        guard let users = presenter?.getUserList() else {
+            return cell
+        }
 
         if indexPath.row >= users.count {
             return cell
