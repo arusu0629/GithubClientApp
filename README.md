@@ -12,3 +12,6 @@ Github Client App with (UIKit + Storyboard)
 - 0件表示の実装
   - エラー時同様にアラートを出すぐらいはしても良かった  
 - ユーザ詳細ページのブラウザ内で戻るボタンの表示
+
+### Demo
+![demo](https://raw.githubusercontent.com/wiki/arusu0629/GithubClientApp/Images/GithubClientApp.gif)
